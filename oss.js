@@ -25,12 +25,13 @@ exports.listFile = function () {
     });
 }
 
-exports.uploadFile = function (file) {
+exports.uploadFile = function (path ,file, callback) {
     co(function* () {
         client.useBucket('eyun-space');
-        const result = yield client.put('/images/goods/333.jpg', file);
+        const result = yield client.put(path, file);
         console.log(result);
+        callback(null, result);
     }).catch(function (err) {
-        console.log(err);
+        callback(err);
     });
 }

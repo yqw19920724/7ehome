@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const GoodsSchema = new Schema({
     name: {type: String, required: true},
     price: {type: Number, required: true},
-    preview: {type: String, required: true},
+    preview: {type: String},
     createTime: {type: Date, default: Date.now},
     updateTime: { type: Date, default: Date.now },
     settings: Schema.Types.Mixed,
