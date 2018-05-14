@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const common = require('../common/common');
+const findPage = require('../common/findpage');
 const GoodsSchema = new Schema({
     name: {type: String, required: true},
     price: {type: Number, required: true},
@@ -11,6 +11,7 @@ const GoodsSchema = new Schema({
     properties: Schema.Types.Mixed
 });
 
-GoodsSchema.statics.findPage = common.findPage;
+//引入自定义分页方法
+GoodsSchema.statics.findPage = findPage;
 
 module.exports = GoodsSchema;

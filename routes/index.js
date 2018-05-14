@@ -4,7 +4,7 @@ const users = require('./users');
 const goods = require('./goods');
 const upload = require('./upload');
 
-/* GET home page. */
+//所有根路由分支
 router.use('/users', users);
 router.use('/goods', goods);
 router.use('/upload', upload);
