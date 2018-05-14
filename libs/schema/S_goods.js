@@ -9,7 +9,7 @@ const GoodsSchema = new Schema({
     updateTime: { type: Date, default: Date.now },
     settings: Schema.Types.Mixed,
     properties: Schema.Types.Mixed
-});
+}, {versionKey: false});
 
 //引入自定义分页方法
 GoodsSchema.statics.findPage = findPage;
