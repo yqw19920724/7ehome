@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const timestamps = require('mongoose-timestamp');
 const Schema = mongoose.Schema;
 const findPage = require('../common/findpage');
 const GoodsSchema = new Schema({
@@ -11,5 +12,8 @@ const GoodsSchema = new Schema({
 
 //引入自定义分页方法
 GoodsSchema.statics.findPage = findPage;
+
+//运用记录数据被创建与被修改的时间的插件
+GoodsSchema.plugin(timestamps);
 
 module.exports = GoodsSchema;
