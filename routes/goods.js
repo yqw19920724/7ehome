@@ -6,13 +6,9 @@ const goodsUtil = require('../libs/goodsUtil');
 //获取goods列表
 router.get('/', goodsUtil.mw_getGoods.getGoodsList);
 
-
-router.put('/', function(req, res, next) {
-    goods.find({}, function (err, doc) {
-        console.log(doc);
-        res.render('index', { title: doc });
-    })
-});
+//修改good数据
+router.put('/:goodId',
+    goodsUtil.mw_updateGood.updateGood);
 
 //创建good
 router.post('/',
