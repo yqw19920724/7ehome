@@ -6,8 +6,8 @@ const multipartMiddleware = multipart();
 
 router.post('/:id',
     multipartMiddleware,
-    uploadUtil.MW_creatGood.checkParams,
-    uploadUtil.MW_creatGood.uploadToOss,
-    uploadUtil.MW_creatGood.updateGood);
+    uploadUtil.mw_creatGood.checkParams,
+    uploadUtil.mw_creatGood.uploadToOss,
+    uploadUtil.mw_creatGood.updateGood);
 
 module.exports = router;

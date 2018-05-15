@@ -1,9 +1,8 @@
 const goods = require('./model/m_goods');
-const common = require('./common/common');
 const oss = require('../oss');
 const ossPath = 'images/goods/';
 
-exports.MW_creatGood = {
+exports.mw_creatGood = {
     checkParams: function (req, res, next) {
         if(!req.files || !req.params.id) {
             return res.status(400).json({err: 'image is invalid'})
