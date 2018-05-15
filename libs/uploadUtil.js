@@ -1,4 +1,4 @@
-const goods = require('./model/M_goods');
+const goods = require('./model/m_goods');
 const common = require('./common/common');
 const oss = require('../oss');
 const ossPath = 'images/goods/';
