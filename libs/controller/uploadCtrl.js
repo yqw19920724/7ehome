@@ -1,5 +1,5 @@
-const goods = require('./model/m_goods');
-const oss = require('../oss');
+const goods = require('../model/m_goods');
+const oss = require('../../oss');
 const ossPath = 'images/goods/';
 
 exports.mw_creatGood = {
