@@ -1,5 +1,4 @@
 const goods = require('../model/m_goods');
-const common = require('../common/common');
 
 //获取商品列表
 exports.getGoodsList =  params => {

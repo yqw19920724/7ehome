@@ -37,7 +37,7 @@ exports.mw_creatGood = {
             return res.status(400).json({err: '数据填写不完整'})
         }
         goodService.createGood({name: name, price: price}).then(good => {
-            return res.status(200).json({data: good})
+            return res.status(200).json(good)
         }).catch(err => {
             return res.status(400).json({err: err.message})
         })

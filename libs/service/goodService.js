@@ -1,13 +1,11 @@
 const goodDao = require('../dao/goodDao');
 
-exports.getGoodsList = params => {
-    return new Promise((resolve, reject) => {
-        goodDao.getGoodsList(params).then(data => {
-            resolve(data)
-        }).catch(err => {
-            reject(err)
-        })
-    })
+exports.getGoodsList = async params => {
+    try {
+        return await goodDao.getGoodsList(params)
+    }catch (err) {
+        return err
+    }
 };
 
 exports.updateGood = async (goodId, params) => {
@@ -22,6 +20,10 @@ exports.updateGood = async (goodId, params) => {
             good.name = params.name;
             beChanged = true;
         }
+        if(params.preview) {
+            good.preview = params.preview;
+            beChanged = true;
+        }
         if(beChanged) {
             return await goodDao.saveGood(good)
         }else {
@@ -32,14 +34,12 @@ exports.updateGood = async (goodId, params) => {
     }
 };
 
-exports.createGood = params => {
-    return new Promise((resolve, reject) => {
-        goodDao.createGood(params).then(good => {
-            return resolve(good)
-        }).catch(err => {
-            return reject(err)
-        })
-    })
+exports.createGood = async params => {
+    try {
+        return await goodDao.createGood(params)
+    }catch (err) {
+        return err
+    }
 };
 
 exports.deleteGood = async goodId => {

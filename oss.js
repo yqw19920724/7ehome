@@ -25,13 +25,14 @@ exports.listFile = function () {
     });
 }
 
-exports.uploadFile = function (path ,file, callback) {
-    co(function* () {
-        client.useBucket('eyun-space');
-        const result = yield client.put(path, file);
-        console.log(result);
-        callback(null, result);
-    }).catch(function (err) {
-        callback(err);
-    });
+exports.uploadFile = function (path ,file) {
+    return new Promise((resolve, reject) => {
+        co(function* () {
+            client.useBucket('eyun-space');
+            const result = yield client.put(path, file);
+            return resolve(result)
+        }).catch(function (err) {
+            return reject(err)
+        });
+    })
 }
