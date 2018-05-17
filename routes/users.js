@@ -1,9 +1,8 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
+const userCtrl = require('../libs/controller/userCtrl');
 
 /* GET users listing. */
-router.get('/', function(req, res, next) {
-    res.render('index', { title: 'hello word222' });
-});
+router.post('/', userCtrl.register);
 
 module.exports = router;
