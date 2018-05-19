@@ -1,4 +1,7 @@
 const crypto = require('crypto');
+const jwt = require('jwt-simple');
+const moment = require('moment');
+const config = require('../config');
 
 exports.responseMethod = (res, result) => {
     if(result.err) {
@@ -30,6 +33,21 @@ exports.to = (promise) => {
     return promise.then(data => {
         return [null, data];
     }).catch(err => [err]);
+};
+
+//获取token
+exports.createToken = (data) => {
+    const expires = moment().add('days', 7).valueOf();
+    const token = jwt.encode({
+        iss: data,
+        exp: expires
+    }, config.jwtTokenSecret);
+    return token;
+}
+
+//解密token
+exports.decodeToken = (token) => {
+    return jwt.decode(token, config.jwtTokenSecret);
 };
 
 

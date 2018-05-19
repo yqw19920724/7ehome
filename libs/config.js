@@ -1,0 +1,1 @@
+exports.jwtTokenSecret = 'chenfeng-7ehome';

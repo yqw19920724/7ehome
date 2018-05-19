@@ -11,4 +11,19 @@ exports.register = (req, res) => {
     }).catch(err => {
         return res.status(400).json({err: err.message})
     })
-}
+};
+
+exports.login = (req, res) => {
+    const username = req.body.username;
+    const password = req.body.password;
+    if(!username || !password) {
+        return res.status(400).json({err: '请输入正确的用户名和密码!'})
+    }
+    userService.login({username, password}).then(token => {
+        return res.status(200).json({
+            token: token
+        })
+    }).catch(err => {
+        return res.status(400).json({err: err.message})
+    })
+};
