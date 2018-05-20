@@ -10,5 +10,7 @@ router.post('/login', userMiddleware.verifyToken, userCtrl.login);
 
 router.post('/modifyPassword', userMiddleware.verifyToken, userCtrl.modifyPassword);
 
+router.post('/verifyToken', userMiddleware.verifyToken, userCtrl.verifyToken);
+
 
 module.exports = router;

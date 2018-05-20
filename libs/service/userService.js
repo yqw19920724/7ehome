@@ -40,3 +40,7 @@ exports.modifyPassword = async params => {
     return newUser;
 };
 
+exports.verifyToken = async userId => {
+    return common.createToken(userId);
+}
+

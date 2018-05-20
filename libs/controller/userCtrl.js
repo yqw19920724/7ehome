@@ -42,4 +42,18 @@ exports.modifyPassword = (req, res) => {
     }).catch(err => {
         return res.status(400).json({err: err.message})
     })
+};
+
+exports.verifyToken = (req, res) => {
+    const user = req.user;
+    if(!user) {
+        return res.status(400).json({err: '自动登录失败!'})
+    }
+    userService.verifyToken({userId: user.id}).then(token => {
+        return res.status(200).json({
+            token: token
+        })
+    }).catch(err => {
+        return res.status(400).json({err: err.message})
+    })
 }
