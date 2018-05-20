@@ -16,7 +16,7 @@ exports.register = async params => {
     return newUser;
 };
 
-exports.login = async (params) => {
+exports.login = async params => {
     [err, user] = await common.to(userDao.findUserByParams({username: params.username}));
     if(err) return err;
     if(!user) return {err: '该用户名还未注册！'};
@@ -27,5 +27,16 @@ exports.login = async (params) => {
     }else {
         return {err: '密码不正确！'};
     }
+};
+
+exports.modifyPassword = async params => {
+    const salt = common.randomData(8);
+    const password = common.encrypt(`${params.password}${salt}`);
+    const user = params.user;
+    user.salt = salt;
+    user.password = password;
+    [err, newUser] = await common.to(userDao.saveUser(user));
+    if(err) return err;
+    return newUser;
 };
 

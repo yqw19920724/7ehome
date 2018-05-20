@@ -32,3 +32,13 @@ exports.createUser = params => {
         })
     })
 };
+
+exports.saveUser = user => {
+    return new Promise((resolve, reject) => {
+        user.save().then(newUser => {
+            return resolve(newUser)
+        }).catch(err => {
+            return reject(err)
+        })
+    })
+};

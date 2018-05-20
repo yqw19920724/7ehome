@@ -27,3 +27,19 @@ exports.login = (req, res) => {
         return res.status(400).json({err: err.message})
     })
 };
+
+exports.modifyPassword = (req, res) => {
+    const user = req.user;
+    const password = req.body.password;
+    if(!user) {
+        return res.status(400).json({err: '请先登录!'})
+    }
+    if(!password) {
+        return res.status(400).json({err: '请输入新密码!'})
+    }
+    userService.modifyPassword({user, password}).then(newUser => {
+        return res.status(200).json(newUser)
+    }).catch(err => {
+        return res.status(400).json({err: err.message})
+    })
+}
