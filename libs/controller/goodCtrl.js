@@ -50,3 +50,37 @@ exports.deleteGood =  (req, res) => {
         return res.status(400).json({err: err.message})
     })
 };
+
+//加入购物车
+exports.addCart = (req, res) => {
+    const user = req.user;
+    const goodId = req.params.goodId;
+    if(!user) {
+        return res.status(400).json({err: '请先登录！'})
+    }
+    if(!goodId) {
+        return res.status(400).json({err: '物品ID不正确！'})
+    }
+    goodService.addCart({user, goodId}).then(good => {
+        return res.status(200).json({data: good})
+    }).catch(err => {
+        return res.status(400).json({err: err.message})
+    })
+};
+
+//取消购物车
+exports.removeCart = (req, res) => {
+    const user = req.user;
+    const goodId = req.params.goodId;
+    if(!user) {
+        return res.status(400).json({err: '请先登录！'})
+    }
+    if(!goodId) {
+        return res.status(400).json({err: '物品ID不正确！'})
+    }
+    goodService.removeCart({user, goodId}).then(good => {
+        return res.status(200).json({data: good})
+    }).catch(err => {
+        return res.status(400).json({err: err.message})
+    })
+}

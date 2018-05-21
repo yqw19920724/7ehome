@@ -5,6 +5,7 @@ const UserSchema = new Schema({
     username: {type: String, required: true},
     password: {type: String, required: true},
     salt: {type: String, required: true},
+    cart: {type: Array},
     settings: Schema.Types.Mixed,
     properties: Schema.Types.Mixed
 }, {versionKey: false});
