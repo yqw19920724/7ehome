@@ -1,4 +1,4 @@
-const goods = require('../model/m_goods');
+const goods = require('../model/goodModel');
 
 //获取商品列表
 exports.getGoodsList =  params => {

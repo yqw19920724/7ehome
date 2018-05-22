@@ -1,4 +1,4 @@
-const User = require('../model/m_user');
+const User = require('../model/userModel');
 
 exports.findUserById = userId => {
     return new Promise((resolve, reject) => {
