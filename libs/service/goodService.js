@@ -82,10 +82,9 @@ exports.removeCart = async ({user, goodId}) => {
         _good.num--;
         if(_good.num < 1) {
             cartList.splice(index, 1);
-            [err, newUser] = await common.to(userDao.saveUser(user));
-            if(err) return err;
-            return good;
         }
-        return good;
+        [err, newUser] = await common.to(userDao.saveUser(user));
+        if(err) return err;
+        return _good;
     }
 }

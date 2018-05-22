@@ -42,3 +42,12 @@ exports.saveUser = user => {
         })
     })
 };
+
+exports.updateUser = (user, params) => {
+    return new Promise((resolve, reject) => {
+        user.update(params, (err, newUser) => {
+            if(err) return reject(err);
+            return resolve(newUser)
+        })
+    })
+}
