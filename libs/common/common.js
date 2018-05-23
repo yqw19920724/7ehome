@@ -3,12 +3,23 @@ const jwt = require('jwt-simple');
 const moment = require('moment');
 const config = require('../config');
 
-exports.responseMethod = (res, result) => {
-    if(result.err) {
-        return res.status(400).json({err: result.err.message});
+exports.handleServiceData = (err, result) => {
+    if(err) {
+        return {status: 0, err: result.err}
     }
-    return res.status(200).json(result.data);
+    return {status: 1, result: result}
 };
+
+exports.handleCtrlData = (params, res) => {
+    if(!params.status) {
+        return res.status(400).json(params)
+    }
+    if(params.status === 0) {
+        return res.status(400).json(params.err)
+    }else if(params.status === 1) {
+        return res.status(200).json(params.result)
+    }
+}
 
 //生成随机数
 exports.randomData = (number) => {
@@ -42,7 +53,7 @@ exports.createToken = (data) => {
         iss: data,
         exp: expires
     }, config.jwtTokenSecret);
-    return token;
+    return {token: token};
 }
 
 //解密token

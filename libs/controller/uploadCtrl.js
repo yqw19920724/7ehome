@@ -1,14 +1,15 @@
 const uploadServce = require('../service/uploadService');
+const common = require('../common/common');
 
 exports.uploadImgAndUpdateGood = (req, res) => {
     const files = req.files;
     const goodId = req.params.id;
     if(!files || !goodId) {
-        return res.status(400).json({err: 'image is invalid'})
+        return common.handleCtrlData({err: '图片数据无效！'}, res);
     }
     uploadServce.uploadGoodImg(goodId, files).then(good => {
-        return res.status(200).json(good)
+        return common.handleCtrlData(good, res);
     }).catch(err => {
-        return res.status(400).json({err: err.message})
+        return common.handleCtrlData(err, res);
     })
-}
+};
