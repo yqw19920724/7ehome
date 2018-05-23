@@ -87,4 +87,45 @@ exports.removeCart = async ({user, goodId}) => {
         if(err) return err;
         return _good;
     }
-}
+};
+
+exports.getCart = async ({user, limit, page}) => {
+    const cart = user.cart || [];
+    const emptyData = {data: [],limit: limit, page: page, total: 0};
+    if(cart.length === 0) {
+        return emptyData
+    }
+    const startIndex = limit * (page - 1);
+    if(startIndex > cart.length - 1) {
+        return emptyData
+    }
+    let endIndex = startIndex + limit - 1;
+    if(endIndex > cart.length - 1) {
+        endIndex = cart.length - 1;
+    }
+    const newCart = cart.slice(startIndex, endIndex + 1);
+
+    let promiseList = Array.from({length: newCart.length});
+    newCart.forEach((item, index) => {
+        promiseList[index] = new Promise((resolve, reject) => {
+            goodDao.findGoodById(item.goodId).then(good => {
+                good.num = item.num;
+                resolve(good)
+            }).catch(err => {
+                reject(err)
+            })
+        });
+    });
+    return Promise.all(promiseList).then(list => {
+        return {
+            data: list,
+            limit: limit,
+            page: page,
+            total: list.length
+        }
+    }).catch(err => {
+        return err;
+    })
+};
+
+

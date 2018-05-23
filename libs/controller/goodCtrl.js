@@ -83,4 +83,19 @@ exports.removeCart = (req, res) => {
     }).catch(err => {
         return res.status(400).json({err: err.message})
     })
+};
+
+//获取购物车
+exports.getCart = (req, res) => {
+    const user = req.user;
+    const limit = parseInt(req.query.limit) || 10;
+    const page = parseInt(req.query.page) || 1;
+    if(!user) {
+        return res.status(400).json({err: '请先登录！'})
+    }
+    goodService.getCart({user, limit, page}).then(good => {
+        return res.status(200).json(good)
+    }).catch(err => {
+        return res.status(400).json({err: err.message})
+    })
 }
