@@ -3,10 +3,10 @@
   <component name="ChangeListManager">
     <list default="true" id="ef8fd9ef-5789-4927-8878-760199cc0efb" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/libs/service/goodService.js" afterPath="$PROJECT_DIR$/libs/service/goodService.js" />
-      <change beforePath="$PROJECT_DIR$/libs/service/uploadService.js" afterPath="$PROJECT_DIR$/libs/service/uploadService.js" />
-      <change beforePath="$PROJECT_DIR$/libs/service/userService.js" afterPath="$PROJECT_DIR$/libs/service/userService.js" />
-      <change beforePath="$PROJECT_DIR$/routes/goods.js" afterPath="$PROJECT_DIR$/routes/goods.js" />
+      <change beforePath="$PROJECT_DIR$/libs/model/goodModel.js" afterPath="$PROJECT_DIR$/libs/model/goodModel.js" />
+      <change beforePath="$PROJECT_DIR$/libs/model/userModel.js" afterPath="$PROJECT_DIR$/libs/model/userModel.js" />
+      <change beforePath="$PROJECT_DIR$/libs/schema/goodShema.js" afterPath="$PROJECT_DIR$/libs/schema/goodSchema.js" />
+      <change beforePath="$PROJECT_DIR$/libs/schema/userShema.js" afterPath="$PROJECT_DIR$/libs/schema/userSchema.js" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -40,8 +40,8 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="userShema.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/libs/schema/userShema.js">
+      <file leaf-file-name="userSchema.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/libs/schema/userSchema.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="432">
               <caret line="12" column="24" lean-forward="false" selection-start-line="12" selection-start-column="24" selection-end-line="12" selection-end-column="24" />
@@ -60,18 +60,8 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="goodCtrl.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/libs/controller/goodCtrl.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2808">
-              <caret line="78" column="54" lean-forward="false" selection-start-line="78" selection-start-column="54" selection-end-line="78" selection-end-column="54" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="goodShema.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/libs/schema/goodShema.js">
+      <file leaf-file-name="goodSchema.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/libs/schema/goodSchema.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="540">
               <caret line="15" column="0" lean-forward="false" selection-start-line="15" selection-start-column="0" selection-end-line="16" selection-end-column="31" />
@@ -100,11 +90,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="common.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="common.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/libs/common/common.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="647">
               <caret line="37" column="9" lean-forward="true" selection-start-line="37" selection-start-column="9" selection-end-line="37" selection-end-column="9" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="user.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/libs/middleware/user.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="612">
+              <caret line="17" column="2" lean-forward="true" selection-start-line="17" selection-start-column="2" selection-end-line="17" selection-end-column="2" />
               <folding />
             </state>
           </provider>
@@ -344,12 +344,12 @@
       <workItem from="1526815800150" duration="5533000" />
       <workItem from="1526904970887" duration="5670000" />
       <workItem from="1526989759331" duration="5597000" />
-      <workItem from="1527073264770" duration="277000" />
+      <workItem from="1527073264770" duration="411000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="91366000" />
+    <option name="totallyTimeSpent" value="91500000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -567,6 +567,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="108">
           <caret line="3" column="27" lean-forward="false" selection-start-line="3" selection-start-column="27" selection-end-line="3" selection-end-column="27" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -588,13 +589,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="288">
           <caret line="8" column="28" lean-forward="false" selection-start-line="8" selection-start-column="28" selection-end-line="8" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/libs/middleware/user.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="36">
-          <caret line="4" column="18" lean-forward="false" selection-start-line="4" selection-start-column="18" selection-end-line="4" selection-end-column="18" />
         </state>
       </provider>
     </entry>
@@ -629,18 +623,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/libs/schema/goodShema.js">
+    <entry file="file://$PROJECT_DIR$/libs/schema/goodSchema.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="540">
           <caret line="15" column="0" lean-forward="false" selection-start-line="15" selection-start-column="0" selection-end-line="16" selection-end-column="31" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/libs/schema/userShema.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="432">
-          <caret line="12" column="24" lean-forward="false" selection-start-line="12" selection-start-column="24" selection-end-line="12" selection-end-column="24" />
           <folding />
         </state>
       </provider>
@@ -689,6 +675,22 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="647">
           <caret line="37" column="9" lean-forward="true" selection-start-line="37" selection-start-column="9" selection-end-line="37" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/libs/middleware/user.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="612">
+          <caret line="17" column="2" lean-forward="true" selection-start-line="17" selection-start-column="2" selection-end-line="17" selection-end-column="2" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/libs/schema/userSchema.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="432">
+          <caret line="12" column="24" lean-forward="false" selection-start-line="12" selection-start-column="24" selection-end-line="12" selection-end-column="24" />
           <folding />
         </state>
       </provider>
