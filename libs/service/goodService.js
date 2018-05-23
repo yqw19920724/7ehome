@@ -3,13 +3,13 @@ const userDao = require('../dao/userDao');
 const common = require('../common/common');
 
 exports.getGoodsList = async params => {
-    [err, result] = await common.to(goodDao.getGoodsList(params));
+    const [err, result] = await common.to(goodDao.getGoodsList(params));
     if(err) return err;
     return result;
 };
 
 exports.updateGood = async (goodId, params) => {
-    [err, good] = await common.to(goodDao.findGoodById(goodId));
+    const [err, good] = await common.to(goodDao.findGoodById(goodId));
     if(err) return err;
     let beChanged;
     if(params.price) {
@@ -25,7 +25,7 @@ exports.updateGood = async (goodId, params) => {
         beChanged = true;
     }
     if(beChanged) {
-        [err, _good] = await common.to(goodDao.saveGood(good));
+        const [err, _good] = await common.to(goodDao.saveGood(good));
         if(err) return err;
         return _good;
     }else {
@@ -34,22 +34,22 @@ exports.updateGood = async (goodId, params) => {
 };
 
 exports.createGood = async params => {
-    [err, result] = await common.to(goodDao.createGood(params));
+    const [err, result] = await common.to(goodDao.createGood(params));
     if(err) return err;
     return result;
 };
 
 exports.deleteGood = async goodId => {
-    [err, good] = await common.to(goodDao.findGoodById(goodId));
-    if(err) return err;
-    [err, _good] = await common.to(goodDao.deleteGood(good));
-    if(err) return err;
+    const [err1, good] = await common.to(goodDao.findGoodById(goodId));
+    if(err1) return err1;
+    const [err2, _good] = await common.to(goodDao.deleteGood(good));
+    if(err2) return err2;
     return _good;
 };
 
 exports.addCart = async ({user, goodId}) => {
-    [err, good] = await common.to(goodDao.findGoodById(goodId));
-    if(err) return err;
+    const [err1, good] = await common.to(goodDao.findGoodById(goodId));
+    if(err1) return err1;
     const cartList = user.cart || [];
     const index = cartList.findIndex( item => {
         return item.goodId === goodId
@@ -59,13 +59,13 @@ exports.addCart = async ({user, goodId}) => {
     }else {
         cartList[index].num++;
     }
-    [err, newUser] = await common.to(userDao.saveUser(user));
-    if(err) return err;
+    const [err2, newUser] = await common.to(userDao.saveUser(user));
+    if(err2) return err2;
     return good;
 };
 
 exports.removeCart = async ({user, goodId}) => {
-    [err, good] = await common.to(goodDao.findGoodById(goodId));
+    const [err, good] = await common.to(goodDao.findGoodById(goodId));
     if(err) return err;
     let cartList = user.cart;
     if(!cartList || cartList.length === 0) {
@@ -83,7 +83,7 @@ exports.removeCart = async ({user, goodId}) => {
         if(_good.num < 1) {
             cartList.splice(index, 1);
         }
-        [err, newUser] = await common.to(userDao.saveUser(user));
+        const [err, newUser] = await common.to(userDao.saveUser(user));
         if(err) return err;
         return _good;
     }
