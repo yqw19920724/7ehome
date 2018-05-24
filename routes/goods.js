@@ -19,7 +19,7 @@ router.delete('/:goodId', goodCtrl.deleteGood);
 router.post('/addCart/:goodId', userMiddleware.verifyToken, goodCtrl.addCart);
 
 //取消购物车
-router.post('/removeCart/:goodId', userMiddleware.verifyToken, goodCtrl.removeCart);
+router.delete('/removeCart/:goodId', userMiddleware.verifyToken, goodCtrl.removeCart);
 
 //获取购物车
 router.get('/getCart', userMiddleware.verifyToken, goodCtrl.getCart);

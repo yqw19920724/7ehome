@@ -45,3 +45,49 @@ exports.verifyToken = async userId => {
     return common.handleServiceData(null, token);
 };
 
+exports.createAddress = async ({user, site}) => {
+    const address = user.address || [];
+    address.push({site});
+    const [err, newUser] = await common.to(userDao.saveUser(user));
+    if(err) return common.handleServiceData(err);
+    return common.handleServiceData(null, newUser);
+};
+
+exports.updateAddress = async ({user, addressId, site, usage}) => {
+    const address = user.address || [];
+    if(address.length === 0) {
+        return common.handleServiceData({err: '地址数据错误！'});
+    }
+    const index = address.findIndex(item => {
+        return item.id === addressId
+    });
+    if(index === -1) {
+        return common.handleServiceData({err: '地址数据错误！'});
+    }
+    if(site) {
+        address[index].site = site
+    }
+    if(usage) {
+        address.forEach(item => {
+            item.usage = false;
+        });
+        address[index].usage = eval(usage)
+    }
+    const [err, newUser] = await common.to(userDao.saveUser(user));
+    if(err) return common.handleServiceData(err);
+    return common.handleServiceData(null, newUser);
+};
+
+exports.deleteAddress = async ({user, addressId}) => {
+    const address = user.address;
+    const index = address.findIndex(item => {
+        return item.id === addressId
+    });
+    if(index === -1) {
+        return common.handleServiceData({err: '地址数据错误！'});
+    }
+    address.splice(index, 1);
+    const [err, newUser] = await common.to(userDao.saveUser(user));
+    if(err) return common.handleServiceData(err);
+    return common.handleServiceData(null, newUser);
+};

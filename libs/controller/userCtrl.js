@@ -54,3 +54,59 @@ exports.verifyToken = (req, res) => {
         return common.handleCtrlData(err, res);
     })
 };
+
+exports.createAddress = (req, res) => {
+    const user = req.user;
+    const site = req.body.site;
+    if(!user) {
+        return common.handleCtrlData({err: '请先登录!'}, res);
+    }
+    if(!site) {
+        return common.handleCtrlData({err: '请输入地址!'}, res);
+    }
+    userService.createAddress({user, site}).then(user => {
+        return common.handleCtrlData(user, res);
+    }).catch(err => {
+        return common.handleCtrlData(err, res);
+    })
+};
+
+exports.updateAddress = (req, res) => {
+    const user = req.user;
+    const addressId = req.params.addressId;
+    const site = req.body.site;
+    const usage = req.body.usage;
+    if(!user) {
+        return common.handleCtrlData({err: '请先登录!'}, res);
+    }
+    if(!addressId) {
+        return common.handleCtrlData({err: '请输入地址ID!'}, res);
+    }
+    if(!site && !usage) {
+        return common.handleCtrlData({status: 1, result: user}, res);
+    }
+    userService.updateAddress({user, addressId, site, usage}).then(user => {
+        return common.handleCtrlData(user, res);
+    }).catch(err => {
+        return common.handleCtrlData(err, res);
+    })
+};
+
+exports.deleteAddress = (req, res) => {
+    const user = req.user;
+    const addressId = req.params.addressId;
+    if(!user) {
+        return common.handleCtrlData({err: '请先登录!'}, res);
+    }
+    if(!user.address || user.address.length === 0) {
+        return common.handleCtrlData({err: '地址数据错误!'}, res);
+    }
+    if(!addressId) {
+        return common.handleCtrlData({err: '请输入地址ID!'}, res);
+    }
+    userService.deleteAddress({user, addressId}).then(user => {
+        return common.handleCtrlData(user, res);
+    }).catch(err => {
+        return common.handleCtrlData(err, res);
+    })
+}
