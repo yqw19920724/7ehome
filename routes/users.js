@@ -24,4 +24,13 @@ router.put('/updateAddress/:addressId', userMiddleware.verifyToken, userCtrl.upd
 //删除地址
 router.delete('/deleteAddress/:addressId', userMiddleware.verifyToken, userCtrl.deleteAddress);
 
+//创建订单
+router.post('/createOrder', userMiddleware.verifyToken, userCtrl.createOrder);
+
+//修改订单
+router.put('/updateOrder/:orderId', userMiddleware.verifyToken, userCtrl.updateOrder);
+
+//删除订单
+router.delete('/deleteOrder/:orderId', userMiddleware.verifyToken, userCtrl.deleteOrder);
+
 module.exports = router;

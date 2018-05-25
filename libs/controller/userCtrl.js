@@ -109,4 +109,81 @@ exports.deleteAddress = (req, res) => {
     }).catch(err => {
         return common.handleCtrlData(err, res);
     })
+};
+
+exports.createOrder = (req, res) => {
+    const user = req.user;
+    const {addressId, goods} = req.body;
+    if(!user) {
+        return common.handleCtrlData({err: '请先登录!'}, res);
+    }
+    if(!addressId) {
+        return common.handleCtrlData({err: '请输入地址ID!'}, res);
+    }
+    const address = user.address || [];
+    if(!address || address.length === 0) {
+        return common.handleCtrlData({err: '请添加地址!'}, res);
+    }
+    const addressIndex = user.address.findIndex( item => {
+        return item.id === addressIndex
+    });
+    if(addressIndex === -1) {
+        return common.handleCtrlData({err: '地址ID无效!'}, res);
+    }
+    if(!goods || goods.length === 0) {
+        return common.handleCtrlData({err: '请添加商品!'}, res);
+    }
+    userService.createOrder({user, addressId, goods}).then(user => {
+        return common.handleCtrlData(user, res);
+    }).catch(err => {
+        return common.handleCtrlData(err, res);
+    })
+};
+
+exports.updateOrder = (req, res) => {
+    const user = req.user;
+    const orderId = req.params.orderId;
+    if(!user) {
+        return common.handleCtrlData({err: '请先登录!'}, res);
+    }
+    if(!orderId) {
+        return common.handleCtrlData({err: '请输入订单ID!'}, res);
+    }
+    const orders = user.order | [];
+    const orderIndex = orders.findIndex(order => {
+        return order.id === orderId;
+    });
+    if(orderIndex === -1) {
+        return common.handleCtrlData({err: '无效的订单ID!'}, res);
+    }
+    const addressId = req.body.addressId;
+    const goods = req.body.goods;
+    userService.updateOrder({user, orderIndex, addressId, goods}).then(user => {
+        return common.handleCtrlData(user, res);
+    }).catch(err => {
+        return common.handleCtrlData(err, res);
+    })
+};
+
+exports.deleteOrder = (req, res) => {
+    const user = req.user;
+    const orderId = req.params.orderId;
+    if(!user) {
+        return common.handleCtrlData({err: '请先登录!'}, res);
+    }
+    if(!orderId) {
+        return common.handleCtrlData({err: '请输入订单ID!'}, res);
+    }
+    const orders = user.order | [];
+    const orderIndex = orders.findIndex(order => {
+        return order.id === orderId;
+    });
+    if(orderIndex === -1) {
+        return common.handleCtrlData({err: '无效的订单ID!'}, res);
+    }
+    userService.deleteOrder({user, orderIndex}).then(user => {
+        return common.handleCtrlData(user, res);
+    }).catch(err => {
+        return common.handleCtrlData(err, res);
+    })
 }

@@ -1,5 +1,6 @@
 const common = require('../common/common');
 const userDao = require('../dao/userDao');
+const goodDao = require('../dao/goodDao');
 
 exports.register = async params => {
     const [err1, user] = await common.to(userDao.findUserByParams({username: params.username}));
@@ -87,6 +88,86 @@ exports.deleteAddress = async ({user, addressId}) => {
         return common.handleServiceData({err: '地址数据错误！'});
     }
     address.splice(index, 1);
+    const [err, newUser] = await common.to(userDao.saveUser(user));
+    if(err) return common.handleServiceData(err);
+    return common.handleServiceData(null, newUser);
+};
+
+exports.createOrder= async ({user, addressId, goods}) => {
+    const promiseList = Array.from({length: goods.length});
+    for(let good of goods) {
+        if(!good.price) {
+            return common.handleServiceData({err: '商品ID错误！'});
+        }
+        if(!good.num || good.num < 1) {
+            return common.handleServiceData({err: '商品数量错误！'});
+        }
+        promiseList.push(
+            new Promise((resolve, reject) => {
+                goodDao.findGoodById(good.goodId).then(result => {
+                    return resolve(result)
+                }).catch(err => reject(err))
+            })
+        )
+    }
+    const [err1, goodList] = await Promise.all(promiseList);
+    if(err1) return common.handleServiceData(err1);
+    const invalidGoods = goodList.filter(_good => {
+        return _good === null
+    });
+    if(invalidGoods.length !== 0) {
+        return common.handleServiceData({err: '商品ID错误！'});
+    }
+    const order = {status: 0, goods, addressId};
+    user.order.push(order);
+    const [err2, newUser] = await common.to(userDao.saveUser(user));
+    if(err2) return common.handleServiceData(err2);
+    return common.handleServiceData(null, newUser);
+};
+
+exports.updateOrder = async ({user, orderIndex, addressId, goods}) => {
+    const promiseList = Array.from({length: goods.length});
+    const order = user.order[orderIndex];
+    if(order.status === 1) {
+        return common.handleServiceData({err: '订单无法修改！'});
+    }
+    if(goods && goods.length !== 0) {
+        for(let good of goods) {
+            if(!good.price) {
+                return common.handleServiceData({err: '商品ID错误！'});
+            }
+            if(!good.num || good.num < 1) {
+                return common.handleServiceData({err: '商品数量错误！'});
+            }
+            promiseList.push(
+                new Promise((resolve, reject) => {
+                    goodDao.findGoodById(good.goodId).then(result => {
+                        return resolve(result)
+                    }).catch(err => reject(err))
+                })
+            )
+        }
+        const [err1, goodList] = await Promise.all(promiseList);
+        if(err1) return common.handleServiceData(err1);
+        const invalidGoods = goodList.filter(_good => {
+            return _good === null
+        });
+        if(invalidGoods.length !== 0) {
+            return common.handleServiceData({err: '商品ID错误！'});
+        }
+        order.goods = goods
+    }
+    if(addressId) {
+        order.addressId = addressId;
+    }
+    const [err2, newUser] = await common.to(userDao.saveUser(user));
+    if(err2) return common.handleServiceData(err2);
+    return common.handleServiceData(null, newUser);
+};
+
+exports.deleteOrder = async ({user, orderIndex}) => {
+    const order = user.order;
+    order.splice(orderIndex, 1);
     const [err, newUser] = await common.to(userDao.saveUser(user));
     if(err) return common.handleServiceData(err);
     return common.handleServiceData(null, newUser);
