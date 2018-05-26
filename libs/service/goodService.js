@@ -116,12 +116,10 @@ exports.getCart = async ({user, limit, page}) => {
             })
         });
     });
-    return Promise.all(promiseList).then(list => {
-        const result = {data: list, limit: limit, page: page, total: list.length};
-        return common.handleServiceData(null, result);
-    }).catch(err => {
-        return common.handleServiceData(err);
-    })
+    const [err, list] = await Promise.all(promiseList);
+    if(err) common.handleServiceData(err);
+    const result = {data: list, limit: limit, page: page, total: list.length};
+    return common.handleServiceData(null, result);
 };
 
 

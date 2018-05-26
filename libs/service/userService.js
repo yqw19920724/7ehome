@@ -54,6 +54,24 @@ exports.createAddress = async ({user, site}) => {
     return common.handleServiceData(null, newUser);
 };
 
+exports.getAddress = async ({user, limit, page}) => {
+    const address = user.address || [];
+    const emptyData = {data: [],limit: limit, page: page, total: 0};
+    if(address.length === 0) {
+        return common.handleServiceData(null, emptyData)
+    }
+    const startIndex = limit * (page - 1);
+    if(startIndex > address.length - 1) {
+        return common.handleServiceData(null, emptyData)
+    }
+    let endIndex = startIndex + limit - 1;
+    if(endIndex > address.length - 1) {
+        endIndex = address.length - 1;
+    }
+    const newAddress = address.slice(startIndex, endIndex + 1);
+    return common.handleServiceData(null, newAddress);
+};
+
 exports.updateAddress = async ({user, addressId, site, usage}) => {
     const address = user.address || [];
     if(address.length === 0) {
@@ -171,4 +189,22 @@ exports.deleteOrder = async ({user, orderIndex}) => {
     const [err, newUser] = await common.to(userDao.saveUser(user));
     if(err) return common.handleServiceData(err);
     return common.handleServiceData(null, newUser);
+};
+
+exports.getOrder = async ({user, limit, page}) => {
+    const order = user.order || [];
+    const emptyData = {data: [],limit: limit, page: page, total: 0};
+    if(order.length === 0) {
+        return common.handleServiceData(null, emptyData)
+    }
+    const startIndex = limit * (page - 1);
+    if(startIndex > order.length - 1) {
+        return common.handleServiceData(null, emptyData)
+    }
+    let endIndex = startIndex + limit - 1;
+    if(endIndex > order.length - 1) {
+        endIndex = order.length - 1;
+    }
+    const newOrder = address.slice(startIndex, endIndex + 1);
+    return common.handleServiceData(null, newOrder);
 };

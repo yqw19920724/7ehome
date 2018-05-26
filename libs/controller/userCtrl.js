@@ -71,6 +71,20 @@ exports.createAddress = (req, res) => {
     })
 };
 
+exports.getAddress = (req, res) => {
+    const user = req.user;
+    const limit = parseInt(req.query.limit) || 10;
+    const page = parseInt(req.query.page) || 1;
+    if(!user) {
+        return common.handleCtrlData({err: '请先登录！'}, res);
+    }
+    userService.getAddress({user, limit, page}).then(address => {
+        return common.handleCtrlData(address, res);
+    }).catch(err => {
+        return common.handleCtrlData(err, res);
+    })
+};
+
 exports.updateAddress = (req, res) => {
     const user = req.user;
     const addressId = req.params.addressId;
@@ -183,6 +197,20 @@ exports.deleteOrder = (req, res) => {
     }
     userService.deleteOrder({user, orderIndex}).then(user => {
         return common.handleCtrlData(user, res);
+    }).catch(err => {
+        return common.handleCtrlData(err, res);
+    })
+};
+
+exports.getOrder = (req, res) => {
+    const user = req.user;
+    const limit = parseInt(req.query.limit) || 10;
+    const page = parseInt(req.query.page) || 1;
+    if(!user) {
+        return common.handleCtrlData({err: '请先登录！'}, res);
+    }
+    userService.getOrder({user, limit, page}).then(order => {
+        return common.handleCtrlData(order, res);
     }).catch(err => {
         return common.handleCtrlData(err, res);
     })

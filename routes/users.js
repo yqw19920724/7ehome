@@ -18,6 +18,9 @@ router.post('/verifyToken', userMiddleware.verifyToken, userCtrl.verifyToken);
 //添加地址
 router.post('/createAddress', userMiddleware.verifyToken, userCtrl.createAddress);
 
+//获取地址
+router.get('/getAddress', userMiddleware.verifyToken, userCtrl.getAddress);
+
 //修改地址
 router.put('/updateAddress/:addressId', userMiddleware.verifyToken, userCtrl.updateAddress);
 
@@ -26,6 +29,9 @@ router.delete('/deleteAddress/:addressId', userMiddleware.verifyToken, userCtrl.
 
 //创建订单
 router.post('/createOrder', userMiddleware.verifyToken, userCtrl.createOrder);
+
+//获取订单
+router.get('/getOrder', userMiddleware.verifyToken, userCtrl.getOrder);
 
 //修改订单
 router.put('/updateOrder/:orderId', userMiddleware.verifyToken, userCtrl.updateOrder);
