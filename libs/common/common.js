@@ -5,19 +5,19 @@ const config = require('../config');
 
 exports.handleServiceData = (err, result) => {
     if(err) {
-        return {status: 0, err: result.err}
+        return {status: 0, err: err.err}
     }
     return {status: 1, result: result}
 };
 
 exports.handleCtrlData = (params, res) => {
-    if(!params.status) {
-        return res.status(400).json(params)
-    }
     if(params.status === 0) {
-        return res.status(400).json(params.err)
+        return res.status(400).json(params)
     }else if(params.status === 1) {
         return res.status(200).json(params.result)
+    }
+    if(!params.status) {
+        return res.status(400).json(params)
     }
 }
 
