@@ -24,7 +24,7 @@ exports.login = async params => {
     const newPassword = common.encrypt(`${params.password}${user.salt}`);
     if(newPassword === user.password) {
         const token = common.createToken(user._id);
-        return common.handleServiceData(null, token);
+        return common.handleServiceData(null, {token: token.token, message: '登录成功！'});
     }else {
         return common.handleServiceData({err: '密码不正确！'});
     }

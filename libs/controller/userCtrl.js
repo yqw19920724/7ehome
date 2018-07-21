@@ -3,11 +3,19 @@ const common = require('../common/common');
 
 exports.register = (req, res) => {
     const username = req.body.username;
-    const password = req.body.password;
-    if(!username || !password) {
-        return common.handleCtrlData({err: '请输入正确的用户名和密码!'}, res);
+    const firstPassword = req.body.firstPassword;
+    const secondPassword = req.body.secondPassword;
+    if(!username) {
+        return common.handleCtrlData({err: '请输入用户名!'}, res);
     }
-    userService.register({username,password}).then(user => {
+    if(!firstPassword || !secondPassword) {
+        return common.handleCtrlData({err: '请输入密码!'}, res);
+    }
+    if(firstPassword !== secondPassword) {
+        return common.handleCtrlData({err: '两次密码输入不一致，请重新输入!'}, res);
+    }
+    const password = firstPassword;
+    userService.register({ username, password }).then(user => {
         return common.handleCtrlData(user, res);
     }).catch(err => {
         return common.handleCtrlData(err, res);
