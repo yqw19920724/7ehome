@@ -2,6 +2,7 @@ const crypto = require('crypto');
 const jwt = require('jwt-simple');
 const moment = require('moment');
 const config = require('../config');
+const errorMsg = require('./errorMsg')
 
 exports.handleServiceData = (err, result) => {
     if(err) {
@@ -60,6 +61,8 @@ exports.createToken = (data) => {
 exports.decodeToken = (token) => {
     return jwt.decode(token, config.jwtTokenSecret);
 };
+
+exports.errorMsg = errorMsg.errorMsg;
 
 
 
