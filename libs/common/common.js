@@ -62,7 +62,7 @@ exports.decodeToken = (token) => {
     return jwt.decode(token, config.jwtTokenSecret);
 };
 
-exports.errorMsg = errorMsg.errorMsg;
+exports.errorMsg = errorMsg;
 
 
 
