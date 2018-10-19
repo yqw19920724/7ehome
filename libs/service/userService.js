@@ -5,7 +5,7 @@ const goodDao = require('../dao/goodDao');
 exports.register = async params => {
     const [err1, user] = await common.to(userDao.findUserByParams({username: params.username}));
     if(err1) return common.handleServiceData(err1);
-    if(user) return common.handleServiceData({err: '该用户名已经被注册了！'});
+    if(user) return common.handleServiceData({err: common.errorMsg.user.username_is_registed});
     const salt = common.randomData(8);
     const password = common.encrypt(`${params.password}${salt}`);
     const [err2, newUser] = await common.to(userDao.createUser({
@@ -20,13 +20,13 @@ exports.register = async params => {
 exports.login = async params => {
     const [err, user] = await common.to(userDao.findUserByParams({username: params.username}));
     if(err) return common.handleServiceData(err);
-    if(!user) return common.handleServiceData({err: '该用户名还未注册！'});
+    if(!user) return common.handleServiceData({err: common.errorMsg.user.username_is_unregisted});
     const newPassword = common.encrypt(`${params.password}${user.salt}`);
     if(newPassword === user.password) {
         const token = common.createToken(user._id);
-        return common.handleServiceData(null, {token: token.token, message: '登录成功！'});
+        return common.handleServiceData(null, {token: token.token, message: common.errorMsg.user.login_success});
     }else {
-        return common.handleServiceData({err: '密码不正确！'});
+        return common.handleServiceData({err: common.errorMsg.user.invalid_password});
     }
 };
 
@@ -75,13 +75,13 @@ exports.getAddress = async ({user, limit, page}) => {
 exports.updateAddress = async ({user, addressId, site, usage}) => {
     const address = user.address || [];
     if(address.length === 0) {
-        return common.handleServiceData({err: '地址数据错误！'});
+        return common.handleServiceData({err: common.errorMsg.user.address_error});
     }
     const index = address.findIndex(item => {
         return item.id === addressId
     });
     if(index === -1) {
-        return common.handleServiceData({err: '地址数据错误！'});
+        return common.handleServiceData({err: common.errorMsg.user.address_error});
     }
     if(site) {
         address[index].site = site
@@ -103,7 +103,7 @@ exports.deleteAddress = async ({user, addressId}) => {
         return item.id === addressId
     });
     if(index === -1) {
-        return common.handleServiceData({err: '地址数据错误！'});
+        return common.handleServiceData({err: common.errorMsg.user.address_error});
     }
     address.splice(index, 1);
     const [err, newUser] = await common.to(userDao.saveUser(user));
@@ -115,10 +115,10 @@ exports.createOrder= async ({user, addressId, goods}) => {
     const promiseList = Array.from({length: goods.length});
     for(let good of goods) {
         if(!good.price) {
-            return common.handleServiceData({err: '商品ID错误！'});
+            return common.handleServiceData({err: common.errorMsg.good.good_ID_error});
         }
         if(!good.num || good.num < 1) {
-            return common.handleServiceData({err: '商品数量错误！'});
+            return common.handleServiceData({err: common.errorMsg.good.good_count_error});
         }
         promiseList.push(
             new Promise((resolve, reject) => {
@@ -134,7 +134,7 @@ exports.createOrder= async ({user, addressId, goods}) => {
         return _good === null
     });
     if(invalidGoods.length !== 0) {
-        return common.handleServiceData({err: '商品ID错误！'});
+        return common.handleServiceData({err: common.errorMsg.good.good_ID_error});
     }
     const order = {status: 0, goods, addressId};
     user.order.push(order);
@@ -147,15 +147,15 @@ exports.updateOrder = async ({user, orderIndex, addressId, goods}) => {
     const promiseList = Array.from({length: goods.length});
     const order = user.order[orderIndex];
     if(order.status === 1) {
-        return common.handleServiceData({err: '订单无法修改！'});
+        return common.handleServiceData({err: common.errorMsg.user.order_can_not_modify});
     }
     if(goods && goods.length !== 0) {
         for(let good of goods) {
             if(!good.price) {
-                return common.handleServiceData({err: '商品ID错误！'});
+                return common.handleServiceData({err: common.errorMsg.good.good_ID_error});
             }
             if(!good.num || good.num < 1) {
-                return common.handleServiceData({err: '商品数量错误！'});
+                return common.handleServiceData({err: common.errorMsg.good.good_count_error});
             }
             promiseList.push(
                 new Promise((resolve, reject) => {
@@ -171,7 +171,7 @@ exports.updateOrder = async ({user, orderIndex, addressId, goods}) => {
             return _good === null
         });
         if(invalidGoods.length !== 0) {
-            return common.handleServiceData({err: '商品ID错误！'});
+            return common.handleServiceData({err: common.errorMsg.good.good_ID_error});
         }
         order.goods = goods
     }

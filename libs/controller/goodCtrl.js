@@ -15,7 +15,7 @@ exports.getGoodsList = (req, res) => {
 exports.updateGood = (req, res) => {
     const goodId = req.params.goodId;
     if(!goodId) {
-        return common.handleCtrlData({err: '商品ID不存在！'}, res);
+        return common.handleCtrlData({err: common.errorMsg.good.good_ID_error}, res);
     }
     const body = {price: req.body.price, name: req.body.name};
     goodService.updateGood(goodId, body).then(good => {
@@ -30,7 +30,7 @@ exports.createGood =  (req, res) => {
     const name = req.body.name;
     const price = req.body.price;
     if(!name || !price) {
-        return common.handleCtrlData({err: '数据填写不完整'}, res);
+        return common.handleCtrlData({err: common.errorMsg.good.data_is_incomplete}, res);
     }
     goodService.createGood({name: name, price: price}).then(good => {
         return common.handleCtrlData(good, res);
@@ -43,7 +43,7 @@ exports.createGood =  (req, res) => {
 exports.deleteGood =  (req, res) => {
     const goodId = req.params.goodId;
     if(!goodId) {
-        return common.handleCtrlData({err: '商品ID不存在！'}, res);
+        return common.handleCtrlData({err: common.errorMsg.good.good_ID_error}, res);
     }
     goodService.deleteGood(goodId).then(good => {
         return common.handleCtrlData(good, res);
@@ -57,10 +57,10 @@ exports.addCart = (req, res) => {
     const user = req.user;
     const goodId = req.params.goodId;
     if(!user) {
-        return common.handleCtrlData({err: '请先登录！'}, res);
+        return common.handleCtrlData({err: common.errorMsg.user.please_login}, res);
     }
     if(!goodId) {
-        return common.handleCtrlData({err: '物品ID不正确！'}, res);
+        return common.handleCtrlData({err: common.errorMsg.good.good_ID_error}, res);
     }
     goodService.addCart({user, goodId}).then(good => {
         return common.handleCtrlData(good, res);
@@ -74,10 +74,10 @@ exports.removeCart = (req, res) => {
     const user = req.user;
     const goodId = req.params.goodId;
     if(!user) {
-        return common.handleCtrlData({err: '请先登录！'}, res);
+        return common.handleCtrlData({err: common.errorMsg.user.please_login}, res);
     }
     if(!goodId) {
-        return common.handleCtrlData({err: '物品ID不正确！'}, res);
+        return common.handleCtrlData({err: common.errorMsg.good.good_ID_error}, res);
     }
     goodService.removeCart({user, goodId}).then(good => {
         return common.handleCtrlData(good, res);
@@ -92,7 +92,7 @@ exports.getCart = (req, res) => {
     const limit = parseInt(req.query.limit) || 10;
     const page = parseInt(req.query.page) || 1;
     if(!user) {
-        return common.handleCtrlData({err: '请先登录！'}, res);
+        return common.handleCtrlData({err: common.errorMsg.user.please_login}, res);
     }
     goodService.getCart({user, limit, page}).then(good => {
         return common.handleCtrlData(good, res);

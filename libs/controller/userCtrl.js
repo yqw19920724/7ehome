@@ -124,7 +124,7 @@ exports.deleteAddress = (req, res) => {
         return common.handleCtrlData({err: common.errorMsg.user.please_login}, res);
     }
     if(!user.address || user.address.length === 0) {
-        return common.handleCtrlData({err: common.errorMsg.user.addres_error}, res);
+        return common.handleCtrlData({err: common.errorMsg.user.address_error}, res);
     }
     if(!addressId) {
         return common.handleCtrlData({err: common.errorMsg.user.please_input_address_ID}, res);
@@ -156,7 +156,7 @@ exports.createOrder = (req, res) => {
         return common.handleCtrlData({err: common.errorMsg.user.invalid_address_ID}, res);
     }
     if(!goods || goods.length === 0) {
-        return common.handleCtrlData({err: common.errorMsg.user.please_add_good}, res);
+        return common.handleCtrlData({err: common.errorMsg.good.please_add_good}, res);
     }
     userService.createOrder({user, addressId, goods}).then(user => {
         return common.handleCtrlData(user, res);

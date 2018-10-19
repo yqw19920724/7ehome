@@ -5,7 +5,7 @@ exports.uploadImgAndUpdateGood = (req, res) => {
     const files = req.files;
     const goodId = req.params.id;
     if(!files || !goodId) {
-        return common.handleCtrlData({err: '图片数据无效！'}, res);
+        return common.handleCtrlData({err: common.errorMsg.upload.invalid_image_data}, res);
     }
     uploadServce.uploadGoodImg(goodId, files).then(good => {
         return common.handleCtrlData(good, res);
