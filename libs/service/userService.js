@@ -4,7 +4,7 @@ const goodDao = require('../dao/goodDao');
 
 exports.register = async params => {
     const [err1, user] = await common.to(userDao.findUserByParams({username: params.username}));
-    if(err1) return common.handleServiceData(err1);
+    if(err1) throw err1;
     if(user) return common.handleServiceData({err: common.errorMsg.user.USERNAME_IS_REGISTED});
     const salt = common.randomData(8);
     const password = common.encrypt(`${params.password}${salt}`);
@@ -13,13 +13,13 @@ exports.register = async params => {
         password,
         salt
     }));
-    if(err2) return common.handleServiceData(err2);
+    if(err2) throw err2;
     return common.handleServiceData(null, newUser);
 };
 
 exports.login = async params => {
     const [err, user] = await common.to(userDao.findUserByParams({username: params.username}));
-    if(err) return common.handleServiceData(err);
+    if(err) throw err;
     if(!user) return common.handleServiceData({err: common.errorMsg.user.USERNAME_IS_UNREGISTED});
     const newPassword = common.encrypt(`${params.password}${user.salt}`);
     if(newPassword === user.password) {
@@ -37,7 +37,7 @@ exports.modifyPassword = async params => {
     user.salt = salt;
     user.password = password;
     const [err, newUser] = await common.to(userDao.saveUser(user));
-    if(err) return common.handleServiceData(err);
+    if(err) throw err;
     return common.handleServiceData(null, newUser);
 };
 
@@ -50,7 +50,7 @@ exports.createAddress = async ({user, site}) => {
     const address = user.address || [];
     address.push({site});
     const [err, newUser] = await common.to(userDao.saveUser(user));
-    if(err) return common.handleServiceData(err);
+    if(err) throw err;
     return common.handleServiceData(null, newUser);
 };
 
@@ -93,7 +93,7 @@ exports.updateAddress = async ({user, addressId, site, usage}) => {
         address[index].usage = eval(usage)
     }
     const [err, newUser] = await common.to(userDao.saveUser(user));
-    if(err) return common.handleServiceData(err);
+    if(err) throw err;
     return common.handleServiceData(null, newUser);
 };
 
@@ -107,7 +107,7 @@ exports.deleteAddress = async ({user, addressId}) => {
     }
     address.splice(index, 1);
     const [err, newUser] = await common.to(userDao.saveUser(user));
-    if(err) return common.handleServiceData(err);
+    if(err) throw err;
     return common.handleServiceData(null, newUser);
 };
 
@@ -129,7 +129,7 @@ exports.createOrder= async ({user, addressId, goods}) => {
         )
     }
     const [err1, goodList] = await Promise.all(promiseList);
-    if(err1) return common.handleServiceData(err1);
+    if(err1) throw err1;
     const invalidGoods = goodList.filter(_good => {
         return _good === null
     });
@@ -139,7 +139,7 @@ exports.createOrder= async ({user, addressId, goods}) => {
     const order = {status: 0, goods, addressId};
     user.order.push(order);
     const [err2, newUser] = await common.to(userDao.saveUser(user));
-    if(err2) return common.handleServiceData(err2);
+    if(err2) throw err2;
     return common.handleServiceData(null, newUser);
 };
 
@@ -166,7 +166,7 @@ exports.updateOrder = async ({user, orderIndex, addressId, goods}) => {
             )
         }
         const [err1, goodList] = await Promise.all(promiseList);
-        if(err1) return common.handleServiceData(err1);
+        if(err1) throw err1;
         const invalidGoods = goodList.filter(_good => {
             return _good === null
         });
@@ -179,7 +179,7 @@ exports.updateOrder = async ({user, orderIndex, addressId, goods}) => {
         order.addressId = addressId;
     }
     const [err2, newUser] = await common.to(userDao.saveUser(user));
-    if(err2) return common.handleServiceData(err2);
+    if(err2) throw err2;
     return common.handleServiceData(null, newUser);
 };
 
@@ -187,7 +187,7 @@ exports.deleteOrder = async ({user, orderIndex}) => {
     const order = user.order;
     order.splice(orderIndex, 1);
     const [err, newUser] = await common.to(userDao.saveUser(user));
-    if(err) return common.handleServiceData(err);
+    if(err) throw err;
     return common.handleServiceData(null, newUser);
 };
 
